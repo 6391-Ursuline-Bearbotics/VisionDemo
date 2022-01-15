@@ -22,10 +22,12 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void redBall(boolean exists) {
     redBall = exists;
+    setBallLEDs();
   }
 
   public void blueBall(boolean exists) {
     blueBall = exists;
+    setBallLEDs();
   }
 
   public void rainbow() {
@@ -46,34 +48,34 @@ public class LEDSubsystem extends SubsystemBase {
 
   private void setBallLEDs() {
     if (redBall && blueBall) {
-      setFrontHalf(() -> m_ledBuffer.setRGB(index, r, g, b));
-      setBackHalf(() -> m_ledBuffer.setRGB(index, r, g, b));
+      setHalf();
     }
     else {
       if (redBall) {
-        setAll(() -> m_ledBuffer.setRGB(index, r, g, b));
+        setAll(255, 0, 0);
       }
       if (blueBall) {
-        setAll(() -> m_ledBuffer.setRGB(index, r, g, b));
+        setAll(0, 0, 255);
       }
     }
   }
 
-  private void setAll(Runnable ledSet) {
+  private void setAll(int red, int green, int blue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      ledSet.run();
+      m_ledBuffer.setRGB(i, red, green, blue);
     }
+    m_led.setData(m_ledBuffer);
   }
 
-  private void setFrontHalf(Runnable ledSet) {
-    for (var i = 0; i < m_ledBuffer.getLength() / 2; i++) {
-      ledSet.run();
+  public void setHalf() {
+    for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+      if (i < m_ledBuffer.getLength() / 2) {
+        m_ledBuffer.setRGB(i, 255, 255, 255);
+      }
+      else {
+        m_ledBuffer.setRGB(i, 255, 0, 0);
+      }
     }
-  }
-
-  private void setBackHalf(Runnable ledSet) {
-    for (var i = Math.ceil(m_ledBuffer.getLength() / 2.0); i < m_ledBuffer.getLength() / 2; i++) {
-      ledSet.run();
-    }
+    m_led.setData(m_ledBuffer);
   }
 }
