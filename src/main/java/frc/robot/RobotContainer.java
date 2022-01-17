@@ -19,11 +19,11 @@ import frc.robot.subsystems.LEDSubsystem;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final LEDSubsystem m_led = new LEDSubsystem();
-
   PhotonCamera camera = new PhotonCamera("limelight");
   PhotonCamera ballcamera = new PhotonCamera("lifecam");
+
+  // The robot's subsystems and commands are defined here...
+  private final LEDSubsystem m_led = new LEDSubsystem(ballcamera);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
