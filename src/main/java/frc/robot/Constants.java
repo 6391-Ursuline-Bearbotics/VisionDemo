@@ -21,6 +21,7 @@ public final class Constants {
     public static final class SHOOTER {
         public static final int TOP_MOTOR = 13;
         public static final int BOTTOM_MOTOR = 14;
+        public static final int BOTTOM_MOTOR2 = 15;
         public static final int ELEVATION_MOTOR = 0;
         public static final int ELEVATION_LOWER_LIMIT = 0;
         public static final int ELEVATION_ENCODER = 0;
@@ -32,7 +33,7 @@ public final class Constants {
         //public static final double HIGH_VELOCITY = 11000.0;
         public static final double HIGH_VELOCITY = 10000.0;//dropped to 10 to shoot lower
         public static final double LOW_VELOCITY = 4500.0;
-        public static final double TOP_PERCENT_OF_BOTTOM = 0.4; //50%;
+        public static final double TOP_PERCENT_OF_BOTTOM = 1.0; //50%;
         public static final double kP = .45;
         //public static final double kF = .049;
         public static final double kF = .055;

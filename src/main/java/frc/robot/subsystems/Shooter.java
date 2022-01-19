@@ -1,14 +1,16 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SHOOTER;
 
 public class Shooter extends SubsystemBase {
-  private WPI_TalonFX topMotor = new WPI_TalonFX(SHOOTER.TOP_MOTOR);
+  //private WPI_TalonFX topMotor = new WPI_TalonFX(SHOOTER.TOP_MOTOR);
   private WPI_TalonFX bottomMotor = new WPI_TalonFX(SHOOTER.BOTTOM_MOTOR);
+  private WPI_TalonFX bottomMotor2 = new WPI_TalonFX(SHOOTER.BOTTOM_MOTOR2);
   private boolean firing = false;
   private double heightVelocity = SHOOTER.HIGH_VELOCITY;
   private double m_targetVelocity = 0;
@@ -17,11 +19,13 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
   public Shooter() {
-    topMotor.setInverted(true);
-    bottomMotor.setInverted(!topMotor.getInverted());
+    //topMotor.setInverted(bottomMotor.getInverted());
+    bottomMotor.setInverted(false);
+    bottomMotor2.follow(bottomMotor);
+    bottomMotor2.setInverted(InvertType.OpposeMaster);
 
     setPID(bottomMotor, SHOOTER.kP, 0, 0, SHOOTER.kF);
-    setPID(topMotor, SHOOTER.kP, 0, 0, SHOOTER.kF);
+    //setPID(topMotor, SHOOTER.kP, 0, 0, SHOOTER.kF);
   }
 
   //method for testing.
@@ -66,10 +70,10 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putString("bottomShooterVelocity", ""+bottomMotor.getSelectedSensorVelocity());
     if (firing){
       bottomMotor.set(ControlMode.Velocity,getTargetVelocity());
-      topMotor.set(ControlMode.Velocity,getTopTargetVelocity());
+      //topMotor.set(ControlMode.Velocity,getTopTargetVelocity());
     } else {
       bottomMotor.set(ControlMode.PercentOutput, 0.0);
-      topMotor.set(ControlMode.PercentOutput, 0.0);
+      //topMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
   }
@@ -88,8 +92,7 @@ public class Shooter extends SubsystemBase {
   public boolean atSpeed(){
     //Boolean("Is BottomMotor at speed?: ", bottomMotor.getSelectedSensorVelocity() >= getTargetVelocity() );
 
-    return bottomMotor.getSelectedSensorVelocity() >= getTargetVelocity() *.95 &&
-      topMotor.getSelectedSensorVelocity() >= getTopTargetVelocity() *.95;
+    return bottomMotor.getSelectedSensorVelocity() >= getTargetVelocity() *.95; //&& topMotor.getSelectedSensorVelocity() >= getTopTargetVelocity() *.95;
   }
 
   public void changeHighVelocity(double amount){
