@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.LEDConstants;
@@ -65,14 +66,14 @@ public class LEDSubsystem extends SubsystemBase {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Calculate the hue - hue is easier for rainbows because the color
       // shape is a circle so only one value needs to precess
-      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      final var hue = (i * 180 / m_ledBuffer.getLength()) % 180;
       // Set the value
       m_ledBuffer.setHSV(i, hue, 255, 128);
     }
     // Increase by to make the rainbow "move"
-    m_rainbowFirstPixelHue += 3;
+    //m_rainbowFirstPixelHue += 3;
     // Check bounds
-    m_rainbowFirstPixelHue %= 180;
+    //m_rainbowFirstPixelHue %= 180;
     m_led.setData(m_ledBuffer);
   }
 
@@ -114,8 +115,10 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void test() {
     m_led.stop();
-    m_ledBuffer.setHSV(0, 120, 255, 128);
-    m_ledBuffer.setHSV(1, 0, 255, 128);
+    //m_ledBuffer.setHSV(0, 120, 255, 128);
+    m_ledBuffer.setLED(0, Color.kBlue);
+    //m_ledBuffer.setHSV(1, 0, 255, 128);
+    m_ledBuffer.setLED(1, Color.kRed);
     m_led.setData(m_ledBuffer);
     m_led.start();
   }
