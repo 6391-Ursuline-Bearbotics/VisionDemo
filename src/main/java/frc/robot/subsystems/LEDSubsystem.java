@@ -19,9 +19,9 @@ public class LEDSubsystem extends SubsystemBase {
 
   private boolean redBall = false;
   private boolean blueBall = false;
-  private Timer redTimer;
+  private Timer redTimer = new Timer();
   private double redTime = 0;
-  private Timer blueTimer;
+  private Timer blueTimer = new Timer();
   private double blueTime = 0;
 
   public LEDSubsystem(PhotonCamera ballCamera) {
