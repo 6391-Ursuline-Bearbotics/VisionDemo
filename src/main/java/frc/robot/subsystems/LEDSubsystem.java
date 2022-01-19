@@ -20,12 +20,12 @@ public class LEDSubsystem extends SubsystemBase {
   private boolean redBall = false;
   private boolean blueBall = false;
   private Timer redTimer;
-  private double redTime;
+  private double redTime = 0;
   private Timer blueTimer;
-  private double blueTime;
+  private double blueTime = 0;
 
   public LEDSubsystem(PhotonCamera ballCamera) {
-    ballCamera = this.ballCamera;
+    this.ballCamera = ballCamera;
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
@@ -33,20 +33,21 @@ public class LEDSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    int index = ballCamera.getPipelineIndex();
+    test();
+/*     int index = ballCamera.getPipelineIndex();
     PhotonPipelineResult result = ballCamera.getLatestResult();
     if (index == 0) {
       redBall(result.hasTargets());
       ballCamera.setPipelineIndex(1);
-      SmartDashboard.putNumber("Red Timer", redTimer.get() - redTime);
-      redTime = redTimer.get();
+      //SmartDashboard.putNumber("Red Timer", redTimer.get() - redTime);
+      //redTime = redTimer.get();
     }
     else { // should only have pipelines 0 & 1
       blueBall(result.hasTargets());
       ballCamera.setPipelineIndex(0);
-      SmartDashboard.putNumber("Blue Timer", blueTimer.get() - blueTime);
-      blueTime = blueTimer.get();
-    }
+      //SmartDashboard.putNumber("Blue Timer", blueTimer.get() - blueTime);
+      //blueTime = blueTimer.get();
+    } */
   }
 
   public void redBall(boolean exists) {
@@ -79,13 +80,16 @@ public class LEDSubsystem extends SubsystemBase {
     if (redBall && blueBall) {
       setHalf();
     }
-    else {
+    else if (redBall || blueBall) {
       if (redBall) {
         setAll(255, 0, 0);
       }
       if (blueBall) {
         setAll(0, 0, 255);
       }
+    }
+    else {
+      setAll(0, 0, 0);
     }
   }
 
@@ -106,5 +110,13 @@ public class LEDSubsystem extends SubsystemBase {
       }
     }
     m_led.setData(m_ledBuffer);
+  }
+
+  public void test() {
+    m_led.stop();
+    m_ledBuffer.setHSV(0, 120, 255, 128);
+    m_ledBuffer.setHSV(1, 0, 255, 128);
+    m_led.setData(m_ledBuffer);
+    m_led.start();
   }
 }

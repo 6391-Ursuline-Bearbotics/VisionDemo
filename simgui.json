@@ -1,0 +1,16 @@
+{
+  "HALProvider": {
+    "Addressable LEDs": {
+      "window": {
+        "visible": true
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/LEDSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+    }
+  }
+}
