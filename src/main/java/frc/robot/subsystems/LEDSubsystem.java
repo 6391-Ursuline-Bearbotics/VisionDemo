@@ -33,7 +33,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    test();
+    setHalf();
 /*     int index = ballCamera.getPipelineIndex();
     PhotonPipelineResult result = ballCamera.getLatestResult();
     if (index == 0) {
@@ -82,10 +82,10 @@ public class LEDSubsystem extends SubsystemBase {
     }
     else if (redBall || blueBall) {
       if (redBall) {
-        setAll(255, 0, 0);
+        setAll(255, 5, 5);
       }
       if (blueBall) {
-        setAll(0, 0, 255);
+        setAll(5, 5, 255);
       }
     }
     else {
@@ -103,10 +103,10 @@ public class LEDSubsystem extends SubsystemBase {
   public void setHalf() {
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
       if (i < m_ledBuffer.getLength() / 2) {
-        m_ledBuffer.setRGB(i, 0, 0, 255);
+        m_ledBuffer.setRGB(i, 5, 5, 255);
       }
       else {
-        m_ledBuffer.setRGB(i, 255, 0, 0);
+        m_ledBuffer.setRGB(i, 255, 5, 5);
       }
     }
     m_led.setData(m_ledBuffer);
