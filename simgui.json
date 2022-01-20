@@ -12,5 +12,13 @@
       "/LiveWindow/LEDSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
     }
+  },
+  "NetworkTables": {
+    "photonvision": {
+      "lifecam": {
+        "open": true
+      },
+      "open": true
+    }
   }
 }

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.LEDConstants;
@@ -19,9 +20,9 @@ public class LEDSubsystem extends SubsystemBase {
 
   private boolean redBall = false;
   private boolean blueBall = false;
-  private Timer redTimer;
+  private Timer redTimer = new Timer();
   private double redTime = 0;
-  private Timer blueTimer;
+  private Timer blueTimer = new Timer();
   private double blueTime = 0;
 
   public LEDSubsystem(PhotonCamera ballCamera) {
@@ -33,21 +34,20 @@ public class LEDSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setHalf();
-/*     int index = ballCamera.getPipelineIndex();
+    int index = ballCamera.getPipelineIndex();
     PhotonPipelineResult result = ballCamera.getLatestResult();
     if (index == 0) {
       redBall(result.hasTargets());
       ballCamera.setPipelineIndex(1);
-      //SmartDashboard.putNumber("Red Timer", redTimer.get() - redTime);
-      //redTime = redTimer.get();
+      SmartDashboard.putNumber("Red Timer", redTimer.get() - redTime);
+      redTime = redTimer.get();
     }
     else { // should only have pipelines 0 & 1
       blueBall(result.hasTargets());
       ballCamera.setPipelineIndex(0);
-      //SmartDashboard.putNumber("Blue Timer", blueTimer.get() - blueTime);
-      //blueTime = blueTimer.get();
-    } */
+      SmartDashboard.putNumber("Blue Timer", blueTimer.get() - blueTime);
+      blueTime = blueTimer.get();
+    }
   }
 
   public void redBall(boolean exists) {
@@ -82,41 +82,33 @@ public class LEDSubsystem extends SubsystemBase {
     }
     else if (redBall || blueBall) {
       if (redBall) {
-        setAll(255, 5, 5);
+        setAll(Color.kRed);
       }
       if (blueBall) {
-        setAll(5, 5, 255);
+        setAll(Color.kBlue);
       }
     }
     else {
-      setAll(0, 0, 0);
+      setAll(Color.kBlack); // Off
     }
   }
 
-  private void setAll(int red, int green, int blue) {
+  private void setAll(Color color) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, red, green, blue);
+      m_ledBuffer.setLED(i, color);
     }
     m_led.setData(m_ledBuffer);
   }
 
   public void setHalf() {
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      if (i < m_ledBuffer.getLength() / 2) {
-        m_ledBuffer.setRGB(i, 5, 5, 255);
+      if (i < m_ledBuffer.getLength() / 4) { // Divide by 4 to account for bug where each LED is duplicated
+        m_ledBuffer.setLED(i, Color.kBlue);
       }
       else {
-        m_ledBuffer.setRGB(i, 255, 5, 5);
+        m_ledBuffer.setLED(i, Color.kRed);
       }
     }
     m_led.setData(m_ledBuffer);
-  }
-
-  public void test() {
-    m_led.stop();
-    m_ledBuffer.setHSV(0, 120, 255, 128);
-    m_ledBuffer.setHSV(1, 0, 255, 128);
-    m_led.setData(m_ledBuffer);
-    m_led.start();
   }
 }
