@@ -28,6 +28,10 @@ public class Shooter extends SubsystemBase {
     //setPID(topMotor, SHOOTER.kP, 0, 0, SHOOTER.kF);
   }
 
+  public void setMotor(double speed) {
+    bottomMotor.set(speed);
+  }
+
   //method for testing.
   public void changeSpeed(double velocity){
     setTargetVelocity(getTargetVelocity() + velocity);
@@ -69,10 +73,10 @@ public class Shooter extends SubsystemBase {
     //SmartDashboard.putString("topShooterVelocity",""+ topMotor.getSelectedSensorVelocity());
     SmartDashboard.putString("bottomShooterVelocity", ""+bottomMotor.getSelectedSensorVelocity());
     if (firing){
-      bottomMotor.set(ControlMode.Velocity,getTargetVelocity());
+      //bottomMotor.set(ControlMode.Velocity,getTargetVelocity());
       //topMotor.set(ControlMode.Velocity,getTopTargetVelocity());
     } else {
-      bottomMotor.set(ControlMode.PercentOutput, 0.0);
+      //bottomMotor.set(ControlMode.PercentOutput, 0.0);
       //topMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
